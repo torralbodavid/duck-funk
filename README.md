@@ -1,6 +1,6 @@
 # Duck Funk
 
-Duck Funk is a CMS compatible with Arcturus CMS
+Duck Funk is a CMS compatible with Arcturus emulator
 
 ## Installation
 
