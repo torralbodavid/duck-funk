@@ -13,12 +13,8 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('duck_funk_users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
+        Schema::table('users', function (Blueprint $table) {
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -31,6 +27,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('duck_funk_users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('email_verified_at');
+            $table->dropColumn('remember_token');
+            $table->dropColumn('created_at');
+            $table->dropColumn('updated_at');
+        });
     }
 }
