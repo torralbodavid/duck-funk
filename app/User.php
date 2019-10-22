@@ -10,15 +10,13 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'duck_funk_users';
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'mail', 'password', 'account_created', 'ip_register', 'ip_current'
     ];
 
     /**
@@ -38,4 +36,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getEmailAttribute()
+    {
+        return $this->mail;
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->mail;
+    }
+
+    public function getEmailForVerification()
+    {
+        return $this->mail;
+    }
+
 }
