@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -26,5 +27,36 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'mail' => $request->mail]
+        );
+    }
+
+    protected function rules()
+    {
+        return [
+            'token' => 'required',
+            'mail' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ];
+    }
+
+    protected function credentials(Request $request)
+    {
+        return $request->only(
+            'mail', 'password', 'password_confirmation', 'token'
+        );
+    }
+
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return redirect()->back()
+            ->withInput($request->only('mail'))
+            ->withErrors(['mail' => trans($response)]);
+    }
+
 
 }
