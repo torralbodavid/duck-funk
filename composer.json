@@ -16,7 +16,7 @@
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.0",
-        "torralbodavid/duck-funk-core": "dev-master"
+        "torralbodavid/duck-funk-core": "0.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
