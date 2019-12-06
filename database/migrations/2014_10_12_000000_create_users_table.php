@@ -2,10 +2,20 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
+
+    public function __construct()
+    {
+        /*
+         * This will map all the enum columns to varchar
+         */
+        DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+    }
+
     /**
      * Run the migrations.
      *
@@ -13,12 +23,9 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('duck_funk_users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('mail', 50)->change();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -31,6 +38,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('duck_funk_users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('email_verified_at');
+            $table->dropColumn('remember_token');
+            $table->dropColumn('created_at');
+            $table->dropColumn('updated_at');
+        });
     }
 }
